@@ -1,8 +1,5 @@
 import os
 from pathlib import Path
-from typing import Optional
-
-import requests
 
 from .base_yaml_schema import BaseYamlSchema
 from .route import Route
@@ -48,11 +45,10 @@ class Scenario(BaseScenario):
         self.response = None
         super().__init__(data_path)
 
-            
         parameter_types = ["headers", "path_variables", "query_params"]
         for param_type in parameter_types:
             target = self.scenario["parameters"][param_type]
-            keys_set = set(d['key'] for d in target)
+            keys_set = {d['key'] for d in target}
             missing_entries = [d for d in self.parent.route["parameters"][param_type] if d['key'] not in keys_set]
             target.extend(missing_entries)
 
@@ -61,7 +57,9 @@ class Scenario(BaseScenario):
         for key in self.parent.route["meta"]:
             if key not in target:
                 target[key] = self.parent.route["meta"][key]
-            elif key in self.parent.route["meta"] and key in target and isinstance(self.parent.route["meta"][key], list):
+            elif (
+                key in self.parent.route["meta"] and key in target and isinstance(self.parent.route["meta"][key], list)
+            ):
                 # Copy missing items from app to route
                 for item in self.parent.route["meta"][key]:
                     if item not in target[key]:
@@ -75,9 +73,6 @@ class Scenario(BaseScenario):
             if hook not in target:
                 target.append(hook)
         self.scenario["hooks"] = target
-    
-
-
 
     @classmethod
     def create_new_scenario(cls, parent: Route, data_path: Path) -> "Scenario":
