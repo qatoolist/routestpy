@@ -4,9 +4,9 @@ properties:
     type: object
     properties:
       info:
-        $ref: "info_schema.yaml#/Info"
+        $ref: "./info_schema.yaml"
       meta:
-        $ref: "meta_schema.yaml#/Meta"
+        $ref: "./meta_schema.yaml"
       parameters:
         $ref: "./parameters_schema.yaml"
       hooks:

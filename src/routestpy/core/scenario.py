@@ -44,9 +44,40 @@ class Scenario(BaseScenario):
         Returns: None
         """
         self.parent = parent
-        self.body: Optional[dict] = None
-        self.response: Optional[requests.Response] = None
+        self.body = None
+        self.response = None
         super().__init__(data_path)
+
+            
+        parameter_types = ["headers", "path_variables", "query_params"]
+        for param_type in parameter_types:
+            target = self.scenario["parameters"][param_type]
+            keys_set = set(d['key'] for d in target)
+            missing_entries = [d for d in self.parent.route["parameters"][param_type] if d['key'] not in keys_set]
+            target.extend(missing_entries)
+
+        # Copy missing meta properties from Parent app meta to the route meta
+        target = self.scenario["meta"]
+        for key in self.parent.route["meta"]:
+            if key not in target:
+                target[key] = self.parent.route["meta"][key]
+            elif key in self.parent.route["meta"] and key in target and isinstance(self.parent.route["meta"][key], list):
+                # Copy missing items from app to route
+                for item in self.parent.route["meta"][key]:
+                    if item not in target[key]:
+                        target[key].append(item)
+
+        self.scenario["meta"] = target
+
+        # Copy missing hooks from Parent app hooks to the route hooks
+        target = self.scenario["hooks"]
+        for hook in self.parent.route["hooks"]:
+            if hook not in target:
+                target.append(hook)
+        self.scenario["hooks"] = target
+    
+
+
 
     @classmethod
     def create_new_scenario(cls, parent: Route, data_path: Path) -> "Scenario":

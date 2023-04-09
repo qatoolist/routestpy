@@ -26,7 +26,6 @@ class BaseApplication(BaseYamlSchema):
         from .route import Route
 
         schema_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../schema/app_schema.yaml"))
-        print(f"App Schema Path : {schema_path}")
         self.routes: List[Route] = []
         self.environment: str = ""  # Represents the environment of the application.
         self.host: str = ""  # Represents the host on which the application is running.
@@ -81,18 +80,11 @@ class Application(BaseApplication):
         self.project_path = Path(project_path)
         self.app_yaml_path = Path(APP_YAML_PATH)
         self.app_routes_path = self.project_path.joinpath('routes')
-
-        print(f"Project Path : {self.project_path}")
-        print(f"App yaml Path : {self.app_yaml_path}")
-        print(f"Routes Path : {self.app_routes_path}")
         routes_list = self.find_routes(self.app_routes_path)
 
         for route_path in routes_list:
             route_yaml = route_path.joinpath('route.yaml')
             self.routes.append(Route.new_route(self, route_yaml))
-
-        print(f"App name {self.app['name']}")
-        print(f"Available Routes {routes_list}")
 
     @classmethod
     def create_application(cls, project_path: str) -> "Application":

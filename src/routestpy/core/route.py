@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from typing import List
-
+from typing import Optional
 import requests
 
 from .application import Application
@@ -23,8 +23,13 @@ class BaseRoute(BaseYamlSchema):
 
         Returns: None
         """
+        from .scenario import Scenario
+        
         schema_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../schema/route_schema.yaml"))
         super().__init__(schema_path, data_path)
+        self.response: Optional[requests.Response] = None
+        self.scenarios: List[Scenario] = []
+
 
 
 class Route(BaseRoute):
@@ -45,12 +50,41 @@ class Route(BaseRoute):
         """
         from .scenario import Scenario
 
-        self.parent: Application = parent
-        self.scenarios: List[Scenario] = []
-        self.response: requests.Response = None
         super().__init__(data_path)
-        print(f"Loaded Route[{self.route['info']['name']}] successfully!!")
+        self.parent: Application = parent
 
+        parameter_types = ["headers", "path_variables", "query_params"]
+        for param_type in parameter_types:
+            target = self.route["parameters"][param_type]
+            keys_set = set([d['key'] for d in target])
+            missing_entries = [d for d in self.parent.app["parameters"][param_type] if d['key'] not in keys_set]
+            target.extend(missing_entries)
+            self.route["parameters"][param_type] = target
+
+        # Copy missing meta properties from Parent app meta to the route meta
+        target = self.route["meta"]
+        for key, value in self.parent.app["meta"].items():
+            if key not in target:
+                target[key] = value
+            elif isinstance(value, list):
+                # Copy missing items from app to route
+                target[key] = list(set(target[key] + value))
+
+        self.route["meta"] = target
+
+        # Copy missing hooks from Parent app hooks to the route hooks
+        route_hooks = self.route["hooks"]
+        for hook in self.parent.app["hooks"]:
+            if hook not in route_hooks:
+                route_hooks.append(hook)
+        self.route["hooks"] = route_hooks
+
+        
+        for sc in self.route['scenarios']:
+            s = Scenario.create_new_scenario(self, self.data_path.parent.joinpath(sc[2:]))
+            self.scenarios.append(s)
+
+    
     @classmethod
     def new_route(cls, parent: Application, data_path: Path) -> "Route":
         """

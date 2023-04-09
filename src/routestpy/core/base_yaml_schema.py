@@ -31,6 +31,7 @@ class BaseYamlSchema:
 
         schema_path = Path(schema_path)
         data_path = Path(data_path)
+        self.data_path = data_path
 
         if not schema_path.exists():
             raise ValueError(f"Invalid schema path: {schema_path}")
@@ -51,7 +52,6 @@ class BaseYamlSchema:
         # Set property values from the data file
         for prop, val in self.data.items():
             if hasattr(self, prop):
-                print(f"Setting Attr - {prop} : {val}")
                 setattr(self, prop, val)
 
     def load_schema(self, schema_path: Path) -> dict:
