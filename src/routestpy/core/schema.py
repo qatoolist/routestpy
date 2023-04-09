@@ -1,6 +1,6 @@
-import os
-from typing import Any
 from pathlib import Path
+from typing import Any
+
 import jsonschema
 import pykwalify.core
 import yaml
@@ -104,5 +104,3 @@ class BodySchema(BaseBodySchema):
     """
     BodySchema class extends BaseBodySchema class and represents a schema for HTTP request and response bodies.
     """
-
-    pass

@@ -7,8 +7,9 @@
 
 **Table of Contents**
 
-- [Installation](#installation)
-- [License](#license)
+- [routestpy](#routestpy)
+  - [Installation](#installation)
+  - [License](#license)
 
 ## Installation
 

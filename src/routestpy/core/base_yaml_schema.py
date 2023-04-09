@@ -1,10 +1,10 @@
-import os
+import json
+from pathlib import Path
 
 import jsonschema
 import yaml
-import json
 from jsonschema.exceptions import ValidationError
-from pathlib import Path
+
 
 class BaseYamlSchema:
     """
@@ -28,10 +28,10 @@ class BaseYamlSchema:
         Raises:
             ValueError: If the schema or data path is invalid.
         """
-        
+
         schema_path = Path(schema_path)
         data_path = Path(data_path)
-        
+
         if not schema_path.exists():
             raise ValueError(f"Invalid schema path: {schema_path}")
 
@@ -83,8 +83,8 @@ class BaseYamlSchema:
             dict: The YAML data object to be validated.
         """
         with open(data_path) as f:
-            data=yaml.safe_load(f)
-        
+            data = yaml.safe_load(f)
+
         return self.resolve_data_ref(data_path.parent, data)
 
     def resolve_schema_ref(self, base_path: Path, schema: dict) -> dict:
@@ -119,7 +119,6 @@ class BaseYamlSchema:
             elif isinstance(value, dict):
                 schema[key] = self.resolve_schema_ref(base_path, value)
         return schema
-
 
     def resolve_data_ref(self, base_path: Path, data: dict) -> dict:
         """

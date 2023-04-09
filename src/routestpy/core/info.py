@@ -18,9 +18,7 @@ class BaseInfo(BaseYamlSchema):
 
         Returns: None
         """
-        schema_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "../../schema/info_schema.yaml")
-        )
+        schema_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../schema/info_schema.yaml"))
         super().__init__(schema_path, data_path)
 
 

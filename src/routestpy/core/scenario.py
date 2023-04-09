@@ -1,8 +1,9 @@
 import os
+from pathlib import Path
 from typing import Optional
 
 import requests
-from pathlib import Path
+
 from .base_yaml_schema import BaseYamlSchema
 from .route import Route
 
@@ -22,9 +23,7 @@ class BaseScenario(BaseYamlSchema):
 
         Returns: None
         """
-        schema_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "../../schema/scenario_schema.yaml")
-        )
+        schema_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../schema/scenario_schema.yaml"))
         super().__init__(schema_path, data_path)
 
 

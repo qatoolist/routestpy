@@ -18,9 +18,7 @@ class BaseMeta(BaseYamlSchema):
 
         Returns: None
         """
-        schema_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "../../schema/meta_schema.yaml")
-        )
+        schema_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../schema/meta_schema.yaml"))
         super().__init__(schema_path, data_path)
 
 

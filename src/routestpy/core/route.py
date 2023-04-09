@@ -1,11 +1,11 @@
 import os
+from pathlib import Path
 from typing import List
 
 import requests
-from pathlib import Path
+
 from .application import Application
 from .base_yaml_schema import BaseYamlSchema
-
 
 
 class BaseRoute(BaseYamlSchema):
@@ -23,9 +23,7 @@ class BaseRoute(BaseYamlSchema):
 
         Returns: None
         """
-        schema_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "../../schema/route_schema.yaml")
-        )
+        schema_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../schema/route_schema.yaml"))
         super().__init__(schema_path, data_path)
 
 
@@ -46,7 +44,7 @@ class Route(BaseRoute):
         Returns: None
         """
         from .scenario import Scenario
-        
+
         self.parent: Application = parent
         self.scenarios: List[Scenario] = []
         self.response: requests.Response = None
