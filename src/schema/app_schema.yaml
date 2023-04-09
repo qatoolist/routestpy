@@ -1,0 +1,32 @@
+type: object
+properties:
+  app:
+    type: object
+    properties:
+      name:
+        type: string
+      environments:
+        type: array
+        items:
+          type: string
+      priorities:
+        type: array
+        items:
+          type: string
+      automation_status_list:
+        type: array
+        items:
+          type: string
+      tags:
+        type: array
+        items:
+          type: string
+      requirements:
+        $ref: "./requirements_schema.yaml"
+      parameters:
+        $ref: "./parameters_schema.yaml"
+      meta:
+        $ref: "./meta_schema.yaml"
+      hooks:
+        $ref: "./hooks_schema.yaml"
+    required: []

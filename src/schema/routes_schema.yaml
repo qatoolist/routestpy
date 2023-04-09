@@ -1,0 +1,16 @@
+Routes:
+  type: array
+  items:
+    type: object
+    properties:
+      Route:
+        type: object
+        properties:
+          Info:
+            $ref: "info_schema.yaml#/Info"
+          Meta:
+            $ref: "meta_schema.yaml#/Meta"
+          Parameters:
+            $ref: "parameters_schema.yaml#/Parameters"
+    required:
+      - Route

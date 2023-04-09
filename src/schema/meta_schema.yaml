@@ -1,0 +1,43 @@
+type: object
+properties:
+  assignee:
+    type: string
+    minLength: 1
+  automation_status:
+    type: string
+    minLength: 1
+  component:
+    type: string
+    minLength: 1
+  Importance:
+    type: string
+    minLength: 1
+  requirements:
+    type: array
+    items:
+      type: string
+  requirements_override:
+    type: array
+    items:
+      type: string
+  setup:
+    type: string
+    minLength: 1
+  test_steps:
+    type: string
+    minLength: 1
+  expected_results:
+    type: string
+    minLength: 1
+  negative:
+    type: boolean
+  type:
+    type: string
+    minLength: 1
+  tags:
+    type: array
+    items:
+      type: string
+      minLength: 1
+    uniqueItems: true
+required: []

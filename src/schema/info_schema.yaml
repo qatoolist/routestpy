@@ -1,0 +1,16 @@
+type: object
+properties:
+  name:
+    type: string
+  description:
+    type: string
+  path:
+    type: string
+  method:
+    type: string
+    enum: [GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD]
+  request_body_schema:
+    type: object
+  response_body_schema:
+    type: object
+required: []

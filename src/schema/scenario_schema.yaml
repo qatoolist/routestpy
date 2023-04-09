@@ -1,0 +1,16 @@
+type: object
+properties:
+  scenario:
+    type: object
+    properties:
+      info:
+        $ref: "info_schema.yaml#/Info"
+      meta:
+        $ref: "meta_schema.yaml#/Meta"
+      parameters:
+        $ref: "./parameters_schema.yaml"
+      hooks:
+        $ref: "./hooks_schema.yaml"
+    required:
+      - info
+      - meta

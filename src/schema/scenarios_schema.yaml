@@ -1,0 +1,7 @@
+type: array
+items:
+  type: object
+  properties:
+    scenario:
+      $ref: "./scenario_schema.yaml"
+  uniqueItems: true

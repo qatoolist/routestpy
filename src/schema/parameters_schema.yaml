@@ -1,0 +1,54 @@
+type: object
+properties:
+  headers:
+    type: array
+    items:
+      type: object
+      properties:
+        key:
+          type: string
+          minLength: 1
+        value:
+          type: string
+          minLength: 1
+      required:
+        - key
+        - value
+      uniqueItems: true
+    minItems: 0
+  path_variables:
+    type: array
+    items:
+      type: object
+      properties:
+        key:
+          type: string
+          minLength: 1
+        value:
+          type: string
+          minLength: 1
+      required:
+        - key
+        - value
+      uniqueItems: true
+    minItems: 0
+  query_params:
+    type: array
+    items:
+      type: object
+      properties:
+        key:
+          type: string
+          minLength: 1
+        value:
+          type: string
+          minLength: 1
+      required:
+        - key
+        - value
+      uniqueItems: true
+    minItems: 0
+required:
+  - headers
+  - path_variables
+  - query_params

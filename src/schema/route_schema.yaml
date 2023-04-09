@@ -1,0 +1,17 @@
+type: object
+properties:
+  route:
+    type: object
+    properties:
+      info:
+        $ref: "./info_schema.yaml"
+      meta:
+        $ref: "./meta_schema.yaml"
+      parameters:
+        $ref: "./parameters_schema.yaml"
+      hooks:
+        $ref: "./hooks_schema.yaml"
+      scenarios:
+        type: array
+        items:
+          type: string
