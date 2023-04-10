@@ -26,6 +26,9 @@ classifiers = [
 ]
 dependencies = []
 
+[project.scripts]
+routestpy = "routestpy.cli:cli"
+
 [project.urls]
 Homepage = "https://github.com/qatoolist/routestpy"
 Documentation = "https://github.com/unknown/routestpy#readme"

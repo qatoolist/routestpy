@@ -1,5 +1,7 @@
 import glob
 import os
+from pathlib import Path
+from types import SimpleNamespace
 
 from routestpy import DotEnvLoader
 from routestpy import JsonLoader
@@ -8,11 +10,13 @@ from routestpy import YamlLoader
 
 
 class ConfigLoader:
-    def __init__(self, env):
+    def __init__(self, env=None):
+        if env is None:
+            env = os.getenv("ENV_VAR_NAME", default="prod")
         self.env = env
-        self.config_path = os.path.join(os.getcwd(), "config")
+        self.config_path = Path.cwd() / "config"
 
-    def load(self):
+    def load(self) -> SimpleNamespace:
         files = glob.glob(os.path.join(self.config_path, f"{self.env}.*"))
         if len(files) != 1:
             raise Exception(f"Invalid number of config files for {self.env} environment")
@@ -31,4 +35,17 @@ class ConfigLoader:
         else:
             raise Exception(f"Invalid config file format: {extension}")
 
-        return loader.load(file)
+        return self.convert_dict_to_namespace(loader.load(file))
+
+    def convert_dict_to_namespace(self, d):
+        """
+        Recursively converts all nested dictionaries to SimpleNamespace objects.
+        """
+        if isinstance(d, dict):
+            for key, value in d.items():
+                d[key] = self.convert_dict_to_namespace(value)
+            return SimpleNamespace(**d)
+        elif isinstance(d, list):
+            return [self.convert_dict_to_namespace(item) for item in d]
+        else:
+            return d

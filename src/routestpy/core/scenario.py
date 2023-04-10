@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import List
 
 from .base_yaml_schema import BaseYamlSchema
 from .route import Route
@@ -73,6 +74,18 @@ class Scenario(BaseScenario):
             if hook not in target:
                 target.append(hook)
         self.scenario["hooks"] = target
+
+    def get_tags(self) -> List[str]:
+        return self.scenario["meta"]["tags"]
+
+    def get_name(self) -> List[str]:
+        return self.scenario["info"]["name"]
+
+    def __str__(self):
+        return f"{self.scenario}"
+
+    def __repr__(self):
+        return f"{self.scenario}"
 
     @classmethod
     def create_new_scenario(cls, parent: Route, data_path: Path) -> "Scenario":
