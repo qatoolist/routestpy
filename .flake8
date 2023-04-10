@@ -1,3 +1,3 @@
 [flake8]
-ignore = E501,D100,D101,D102,D103,D104,D105,D106,D107,D205,D401,D202,D400,D200
+ignore = E501,D100,D101,D102,D103,D104,D105,D106,D107,D205,D401,D202,D400,D200,E203
 exclude = .git,__pycache__,docs/source/conf.py,old,build,dist

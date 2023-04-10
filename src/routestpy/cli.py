@@ -12,12 +12,13 @@ def cli():
 
 @cli.command()
 @click.option(
+    '-d',
     '--project-dir',
     type=click.Path(exists=True, file_okay=False, writable=True),
     default=".",
     help="The project directory path. Default is the current directory.",
 )
-@click.option('--project-name', type=str, required=True, help="The name of the new project.")
+@click.option('-n', '--project-name', type=str, required=True, help="The name of the new project.")
 def new_project(project_dir: Path, project_name: str) -> None:
     """Create a new Routestpy project."""
     project_dir = Path(project_dir)
@@ -74,6 +75,55 @@ def new_project(project_dir: Path, project_name: str) -> None:
             f.write(runner_template.render())
 
     click.echo(f"New project '{project_name}' created successfully in '{project_dir}'.")
+
+
+@cli.command()
+@click.option('-n', '--name', type=str, required=True, help="The name of the new route.")
+def new_route(name: str) -> None:
+    """Create a new route."""
+
+
+@cli.command()
+@click.option(
+    '-r', '--route-name', type=str, required=True, help="The name of the route for which scenario is being created."
+)
+@click.option('-n', '--scenario-name', type=str, required=True, help="The name of the new scenario.")
+def new_scenario(route_name: str, scenario_name: str) -> None:
+    """Create a new scenario for a route."""
+
+
+@cli.command()
+@click.option(
+    '-e',
+    '--environment-name',
+    type=str,
+    required=True,
+    help="The name of the environment for which configuration is being updated.",
+)
+@click.option(
+    '-u',
+    '--update',
+    type=str,
+    required=True,
+    help="The new values for target environment configuration in dictionary format string, ex. {'config_name': 'new_value'}.",
+)
+def update_config(environment_name: str, update: str) -> None:
+    """Update configuration for a given environment."""
+
+
+@cli.command()
+@click.option(
+    '-e',
+    '--environment-name',
+    type=str,
+    required=True,
+    help="The name of the environment against which the scenarios need to run.",
+)
+@click.option(
+    '-p', '--parallel-count', type=int, required=True, help="The number of scenarios to run in parallel mode."
+)
+def run(environment_name: str, parallel_count: int) -> None:
+    """Run scenarios against a specified environment in parallel."""
 
 
 if __name__ == "main":
